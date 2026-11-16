@@ -25,7 +25,7 @@ Python 3.12 이상이 필요합니다. 프로그램을 설치한 뒤에는 다�
 
 ### 설치해서 사용하기
 
-[pipx 설치 안내](https://pipx.pypa.io/stable/installation/)에 따라 pipx를 설치하고 `pipx ensurepath`를 실행합니다.
+[pipx 설치 안내](https://pipx.pypa.io/stable/how-to/install-pipx.html)에 따라 pipx를 설치하고 `pipx ensurepath`를 실행합니다.
 필요하면 터미널을 다시 연 뒤 다음 명령으로 도구를 설치합니다. Git도 필요합니다.
 
 ```bash
