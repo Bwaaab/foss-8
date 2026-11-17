@@ -79,3 +79,43 @@ to provide cover pages, tables of contents, fields to fill in, required content,
 
 Fill in the generated Markdown, then convert it to PDF for submission.
 Blank templates remain available. You can also use the commands below to save meeting minutes with basic information filled in.
+
+### 3. Generating a Meeting Minutes Draft
+
+```bash
+python main.py format minutes --date 2026-10-28 -o docs/meetings/2026-10-28.md
+python main.py format minutes --date 2026-10-28 --week 9 --team foss-8 -o 회의록.md
+```
+
+The command selects the nearest submission after the meeting date and fills in the WEEK number, the record period, and the submission deadline.
+The October 28 meeting is WEEK9, with a record period of 10/15–10/28 and a submission deadline of 10/29 18:00.
+Academic weeks run from Tuesday to Monday, and the meeting date, the submission round, and the record period are kept separate. Week 8 has no submission round,
+and the October 29 submission after the exams is required. Use `--week makeup` to select the December 11 makeup submission.
+
+Team details are read from `.foss8/team.json` in the current project when that file exists, and otherwise from the Git remote and the team member table in the README.
+To specify a file directly, use `--team-file 팀정보.json`. The command does not create or change the configuration on its own.
+
+```json
+{
+  "name": "우리팀",
+  "project": "프로젝트 이름",
+  "repository": "https://github.com/owner/repository",
+  "members": [
+    {"name": "가람", "github": "garam"},
+    {"name": "나래", "github": "narae"}
+  ]
+}
+```
+
+It adds a blank row for each member and that week's tasks and checklist from the guide. Actual attendance, the note-taker, progress, decisions, activity counts, and completion checks are left blank.
+Omitting `-o` prints the result to the screen. Existing files are protected and replaced only when `--force` is also given.
+Saving a report the same way, as in `python main.py format midterm -o 중간보고서.md`, fills the cover page with the same team information. `--team-file` selects the configuration used for the report.
+Tasks from a previous minutes file can be copied into the check draft with `--previous docs/meetings/2026-10-07.md`. The original file is not modified, and the status is for you to confirm. After you log in with `gh`, GitHub activity can be collected and the generated JSON attached to the minutes.
+
+```bash
+python main.py activity --repo owner/repo --start 2026-10-08 --end 2026-10-14 -o 활동.json
+python main.py format minutes --date 2026-10-14 --activity 활동.json -o 회의록.md
+```
+
+The period includes each date in Korea Standard Time. Commits are taken from every reachable branch, excluding duplicate SHAs and merge commits. Pull request creation and merges are attributed to the PR author, and reviews to the person who submitted them. Ordinary comments are excluded. A failed lookup is distinguished from zero results, and the links and results should be checked directly.
+Specifying `--activity 활동.json` on an interim or final report adds a draft of supporting material that includes release and minutes links and candidate representative pull requests. Activity JSON from other repositories can be created and passed with `--activity` more than once. Existing files are not overwritten.
