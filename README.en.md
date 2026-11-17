@@ -15,7 +15,7 @@ It aims to provide easy access from the terminal to the templates, evaluation cr
 
 ## Team Project Guide
 
-See the [full table of contents](docs/guide/README.md) for schedules, deliverables, evaluation criteria, collaboration rules, templates, and FAQs. The full guide and [team-Specific decisions](docs/guide/team-context.md) are both available.
+See the [full table of contents](docs/guide/README.md) for schedules, deliverables, evaluation criteria, collaboration rules, templates, and FAQs. The full guide and [team-specific adaptations](docs/guide/team-context.md) are both available.
 
 
 ## Usage
