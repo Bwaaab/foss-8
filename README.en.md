@@ -119,3 +119,47 @@ python main.py format minutes --date 2026-10-14 --activity 활동.json -o 회의
 
 The period includes each date in Korea Standard Time. Commits are taken from every reachable branch, excluding duplicate SHAs and merge commits. Pull request creation and merges are attributed to the PR author, and reviews to the person who submitted them. Ordinary comments are excluded. A failed lookup is distinguished from zero results, and the links and results should be checked directly.
 Specifying `--activity 활동.json` on an interim or final report adds a draft of supporting material that includes release and minutes links and candidate representative pull requests. Activity JSON from other repositories can be created and passed with `--activity` more than once. Existing files are not overwritten.
+
+### 4. Converting Completed Meeting Minutes to Submission PDF
+
+```bash
+python main.py format minutes --pdf docs/meetings/2026-10-28.md
+python main.py format minutes --pdf 회의록.md -o 제출/회의록.pdf
+```
+
+Edit the Markdown file to fill in the actual meeting notes, then convert it. By default, the PDF is saved in the same folder as the source file,
+named `[WEEK9] 회의록_팀명.pdf` using the submission round and team name from the document title.
+Existing files formatted as `# [WEEK7] 회의록 — foss-8` can also be converted. `[WEEK4]` corresponds to the December 11 makeup submission.
+For untitled documents, specify `--week 9 --team 팀명` together. If the document title conflicts with the specified round or team name, the tool prompts for confirmation.
+
+Supports Korean text, tables, checklists, links, and multi-page output. **Chrome or Chromium and Korean fonts** are required,
+with no additional Python libraries needed. If a browser cannot be detected automatically, install one or specify its path with `--browser /path/to/executable`.
+If Korean characters fail to render, install a Korean font such as Noto Sans CJK KR.
+
+The original Markdown file is left unmodified. Existing PDFs are protected and replaced only when `--force` is given.
+If conversion fails, any existing submission file is preserved, and generating a PDF alone does not mark the LMS submission as complete.
+
+### 5. Checking Evaluation Criteria and Basic Files
+
+```bash
+python main.py check                    # Check the current directory
+python main.py check --path "path/to/directory"
+python main.py check --help             # View options
+```
+
+`check` prints the four deliverable evaluation criteria from the guide along with their point values, verification methods, and manual review notes.
+Each criterion's status is displayed as `미확인` (unverified), as completion is not determined automatically.
+
+The basic file check verifies whether `README.md`, `LICENSE`, `CONTRIBUTING.md`,
+`CODE_OF_CONDUCT.md`, `requirements.txt`, and `main.py` exist in the target directory.
+Omitting `--path` inspects the current working directory.
+
+Even when all files exist, their contents, functional behavior, reproducibility, and collaboration workflows must still be verified manually.
+Specifying a directory or file path that does not exist produces an error.
+
+### Verification
+
+```bash
+python -m unittest discover -s tests -v
+python scripts/check_guide.py
+```
